@@ -1,4 +1,4 @@
-# COVID-19 mini-group project.
+# Information visualization project.
 
 Dataset: Our World in Data (University of Oxford)
 
