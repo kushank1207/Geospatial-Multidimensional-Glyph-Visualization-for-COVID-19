@@ -6,11 +6,14 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
+
+from core.task_1 import fig_task_1
+
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
-covid19_data_frame = pd.read_csv(data_set_url)
-covid19_data_frame = covid19_data_frame.loc[
-    covid19_data_frame['continent'] == 'Europe']  # Filter out data based on Europe continent.
+covid19_data_frame_all = pd.read_csv("data/owid-covid-data.csv")
+covid19_data_frame = covid19_data_frame_all.loc[
+    covid19_data_frame_all['continent'] == 'Europe']  # Filter out data based on Europe continent.
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' End.
 
 # CSS stylesheet for dash start.
@@ -35,16 +38,6 @@ fig_dash_world = px.choropleth(covid19_data_frame,
                     color_continuous_scale = px.colors.sequential.OrRd, 
                     scope ="world", 
                     animation_frame ="date")
-
-fig1 = px.line(covid19_data_frame, x='date', y='stringency_index',
-               labels={'date': 'Date', 'stringency_index': 'Government stringency index (0-100)',
-                       'location': 'European country', 'total_cases': 'Total confirmed cases',
-                       'total_deaths': 'Total deaths', 'new_cases': 'New confirmed cases',
-                       'new_deaths': 'New deaths'},
-               color='location', color_discrete_map=color_dict,
-               hover_data=['total_cases', 'total_deaths', 'new_cases', 'new_deaths'],
-               title='Line Graphs for Multivariate Data', height=700)
-# Task 1 from the concept paper End.
 
 # Task 2 from the concept paper start.
 # Coded by Lalith Sagar Devagudi
@@ -207,11 +200,13 @@ app.layout = html.Div([
         dcc.Tab(label='Australia', value='tab-7')
     ]),
     html.Div(id="tabs-content"),
+
     dcc.Tabs(id="buttons", value="button-1", children=[
         dcc.Tab(label='Line chart', value='button-1'),
         dcc.Tab(label='Parallel coordinate', value='button-2'),
         dcc.Tab(label='Pie chart', value='button-3')
     ]),
+    html.Div(id="tabs-content2"),
 ])
 
 
@@ -226,6 +221,23 @@ def render_content(tab):
         return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
     else:
         return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
+
+@app.callback(Output('tabs-content2', 'children'),
+              [Input('buttons', 'value')])
+def render_content(tab):
+    if tab == 'button-1':
+        fig1 = fig_task_1(["India", "Ukraine"], "", COVID_df=covid19_data_frame_all)
+        # fig1 = fig_task_1("", continent = ["Asia"], COVID_df=covid19_data_frame_all)
+        return html.Div([dcc.Graph(id='line-graph', figure=fig1)])
+    #     return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_world)])
+    # elif tab == 'tab-2':
+    #     return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
+    # elif tab == 'tab-3':
+    #     return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
+    # else:
+    #     return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
+
+
 
 
 if __name__ == '__main__':
