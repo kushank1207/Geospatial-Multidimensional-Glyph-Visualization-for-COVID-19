@@ -29,3 +29,5 @@ def fid_task_3(country, continent, COVID_df):
     fig3.update_traces(textposition='inside', textinfo='percent+label'
                    , hovertemplate='Total tests: %{value} <br>Recent data available date,' +
                                    'European country: %{customdata}</br>')
+
+    return fig3
