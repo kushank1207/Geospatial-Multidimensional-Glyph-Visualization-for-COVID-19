@@ -16,6 +16,24 @@ covid19_data_frame = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'Europe']  # Filter out data based on Europe continent.
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' End.
 
+covid19_data_frame_na = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'North America']
+
+covid19_data_frame_sa = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'South America']
+
+covid19_data_frame_eu = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'Europe']
+
+covid19_data_frame_af = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'Africa']
+
+covid19_data_frame_a = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'Asia']
+
+covid19_data_frame_oc = covid19_data_frame.loc[
+    covid19_data_frame['continent'] == 'Oceania']
+
 # CSS stylesheet for dash start.
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -37,6 +55,46 @@ fig_dash_world = px.choropleth(covid19_data_frame,
                     hover_name ="location",  
                     color_continuous_scale = px.colors.sequential.OrRd, 
                     scope ="world", 
+                    animation_frame ="date")
+
+fig_dash_na = px.choropleth(covid19_data_frame_na, 
+                    locations ="iso_code", 
+                    color ="total_cases", 
+                    hover_name ="location",  
+                    color_continuous_scale = px.colors.sequential.Burg, 
+                    scope ="north america", 
+                    animation_frame ="date")
+
+fig_dash_sa = px.choropleth(covid19_data_frame_sa, 
+                    locations ="iso_code", 
+                    color ="total_cases", 
+                    hover_name ="location",  
+                    color_continuous_scale = px.colors.sequential.dense, 
+                    scope ="south america", 
+                    animation_frame ="date")
+
+fig_dash_eu = px.choropleth(covid19_data_frame_eu, 
+                    locations ="iso_code", 
+                    color ="total_cases", 
+                    hover_name ="location",  
+                    color_continuous_scale = px.colors.sequential.Aggrnyl,
+                    scope ="europe", 
+                    animation_frame ="date")
+
+fig_dash_af = px.choropleth(covid19_data_frame_af, 
+                    locations ="iso_code", 
+                    color ="total_cases", 
+                    hover_name ="location",  
+                    color_continuous_scale = px.colors.sequential.Agsunset, 
+                    scope ="africa", 
+                    animation_frame ="date")
+
+fig_dash_a = px.choropleth(covid19_data_frame_a, 
+                    locations ="iso_code", 
+                    color ="total_cases", 
+                    hover_name ="location",  
+                    color_continuous_scale = px.colors.sequential.turbid, 
+                    scope ="asia", 
                     animation_frame ="date")
 
 # Task 2 from the concept paper start.
@@ -216,11 +274,15 @@ def render_content(tab):
     if tab == 'tab-1':
         return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_world)])
     elif tab == 'tab-2':
-        return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
+        return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_na)])
     elif tab == 'tab-3':
-        return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
-    else:
-        return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
+        return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_sa)])
+    elif tab == 'tab-4':
+        return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_eu)])
+    elif tab == 'tab-5':
+        return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_af)])
+    elif tab == 'tab-6':
+        return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_a)])
 
 @app.callback(Output('tabs-content2', 'children'),
               [Input('buttons', 'value')])
