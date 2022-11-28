@@ -2,12 +2,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 
 
 from core.task_1 import fig_task_1
+from core.task_2 import fig_task_2
 
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
@@ -96,84 +97,6 @@ fig_dash_a = px.choropleth(covid19_data_frame_a,
                     color_continuous_scale = px.colors.sequential.turbid, 
                     scope ="asia", 
                     animation_frame ="date")
-
-# Task 2 from the concept paper start.
-# Coded by Lalith Sagar Devagudi
-
-# creating a data frame from the actual europe data frame
-recent_deaths_data_frame = pd.DataFrame(columns=['location', 'total_cases', 'total_deaths', 'date', 'population',
-                                                 'hospital_beds_per_thousand', 'median_age', 'life_expectancy'])
-
-for country in countries_in_europe:
-    recent_data = covid19_data_frame.loc[(covid19_data_frame['location'] == country)
-                                         & pd.notnull(covid19_data_frame['total_deaths']) & pd.notnull(
-        covid19_data_frame['total_cases']),
-                                         ['location', 'total_cases', 'total_deaths', 'date', 'population',
-                                          'hospital_beds_per_thousand', 'median_age', 'life_expectancy']]
-    if not recent_data.empty:
-        recent_deaths_data_frame = pd.concat([recent_deaths_data_frame, recent_data.iloc[[-1]]])
-
-# adding death rates to the data frame 'recent_deaths_data_frame'
-covid19_death_rate = []
-for i in range(0, len(recent_deaths_data_frame)):
-    covid19_death_rate.append(
-        (recent_deaths_data_frame['total_deaths'].iloc[i] / recent_deaths_data_frame['total_cases'].iloc[i]) * 100)
-
-recent_deaths_data_frame['covid19_death_rate'] = covid19_death_rate
-recent_deaths_data_frame.fillna(0)
-
-# getting number of countries for color
-c = []
-for i in range(0, len(countries_in_europe)):
-    c.append(i)
-
-# Allocating the countries unique numbers
-lookup = dict(zip(countries_in_europe, c))
-num = []
-for i in recent_deaths_data_frame['location']:
-    if i in lookup.keys():
-        num.append(lookup[i])
-
-# plotting Parallel Coordinates for the data frame
-fig2 = go.Figure(data=go.Parcoords(
-    line=dict(color=num,
-              colorscale='HSV',
-              showscale=False,
-              cmin=0,
-              cmax=len(countries_in_europe)),
-    dimensions=list([
-        dict(range=[0, len(countries_in_europe)],
-             tickvals=c, ticktext=countries_in_europe,
-             label="countries", values=num),
-        dict(range=[0, max(recent_deaths_data_frame['hospital_beds_per_thousand'])],
-             label="Hospitals beds per 1000", values=recent_deaths_data_frame['hospital_beds_per_thousand']),
-        dict(range=[0, max(recent_deaths_data_frame['median_age'])],
-             label='Median Age', values=recent_deaths_data_frame['median_age']),
-        dict(range=[0, max(recent_deaths_data_frame['population'])],
-             label='Population', values=recent_deaths_data_frame['population']),
-        dict(range=[0, max(recent_deaths_data_frame['life_expectancy'])],
-             label='Life expectancy', values=covid19_data_frame['life_expectancy']),
-        dict(range=[0, max(recent_deaths_data_frame['covid19_death_rate'])],
-             label='COVID-19 Death rate', values=recent_deaths_data_frame['covid19_death_rate']),
-    ])
-), layout=go.Layout(
-    autosize=True,
-    height=800,
-    hovermode='closest',
-    margin=dict(l=170, r=85, t=75)))
-
-# updating margin of the plot
-fig2.update_layout(
-    title={
-        'text': "Parallel Coordinates",
-        'y': 0.99,
-        'x': 0.2,
-        'xanchor': 'center',
-        'yanchor': 'top'}, font=dict(
-        size=15,
-        color="#000000"
-    ))
-# Task 2 from the concept paper end.
 
 # Task 3 from the concept paper start.
 # Coded by Varun Nandkumar Golani
@@ -292,8 +215,9 @@ def render_content(tab):
         # fig1 = fig_task_1("", continent = ["Asia"], COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='line-graph', figure=fig1)])
     #     return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_world)])
-    # elif tab == 'tab-2':
-    #     return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
+    elif tab == 'button-2':
+        fig2 = fig_task_2(["India", "Ukraine"], "", COVID_df=covid19_data_frame_all)
+        return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
     # elif tab == 'tab-3':
     #     return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
     # else:
