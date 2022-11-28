@@ -42,15 +42,14 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # CSS stylesheet for dash end.
 
-
-countries_in_africa = covid19_data_frame['location'].unique().tolist()
+countries_in_africa = covid19_data_frame_af['location'].unique().tolist()
 
 # Creating color dictionary by combining different discrete plotly maps
 color_list = px.colors.qualitative.Alphabet + px.colors.qualitative.Dark24 + px.colors.qualitative.Dark2
 color_dict = {countries_in_africa[index]: color_list[index]
               for index in range(len(countries_in_africa))}
 
-fig_dash_world = px.choropleth(covid19_data_frame, 
+fig_dash_world = px.choropleth(covid19_data_frame_all, 
                     locations ="iso_code", 
                     color ="total_cases", 
                     hover_name ="location",  
@@ -186,7 +185,6 @@ app.layout = html.Div([
         dcc.Tab(label='Europe', value='tab-4'),
         dcc.Tab(label='Africa', value='tab-5'),
         dcc.Tab(label='Asia', value='tab-6'),
-        dcc.Tab(label='Australia', value='tab-7')
     ]),
     html.Div(id="tabs-content"),
 
