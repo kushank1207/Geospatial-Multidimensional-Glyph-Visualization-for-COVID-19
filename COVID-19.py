@@ -242,9 +242,8 @@ def render_content_button(tab, value):
     else:
         return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
 
-
 if __name__ == '__main__':
-    app.run_server(debug=True, use_reloader=True)
+    app.run_server(debug=True, use_reloader=False)
 
 
     # # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
