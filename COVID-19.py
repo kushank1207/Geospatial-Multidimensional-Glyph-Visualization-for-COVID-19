@@ -142,7 +142,7 @@ app.layout = html.Div([
     html.H1(
         children='Geospatial Multidimensional Glyph Visualization for COVID-19',
         style={
-            'textAlign': 'center'}
+            'textAlign': 'center', 'font-weight': 'bold'}
     ),
     dcc.Tabs(id="tabs", value="tab-1", children=[
         dcc.Tab(label='World', value='tab-1'),
@@ -152,7 +152,24 @@ app.layout = html.Div([
         dcc.Tab(label='Africa', value='tab-5'),
         dcc.Tab(label='Asia', value='tab-6'),
     ]),
+
     html.Div(id="tabs-content"),
+
+    html.Div([
+        html.H4(
+            children='Country wise comparison for impacts of COVID-19',
+            style={
+                'textAlign': 'left', 'font-weight': 'bold'}
+        ),
+
+        html.H6(
+            children='Choose multiple countries from drop down menu to visualize comparitive charts',
+            style={
+                'textAlign': 'left', 'font-style': 'italic'}
+        )
+    ]),
+
+
 
     dcc.Dropdown(all_countries, ['India'], multi = True, id='multi-dropdown',),
     html.Div(id='dd-output-container'),
