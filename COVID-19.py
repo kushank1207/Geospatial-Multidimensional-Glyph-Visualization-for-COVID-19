@@ -244,7 +244,7 @@ def render_content_button(tab, value):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, use_reloader=True)
 
 
     # # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
