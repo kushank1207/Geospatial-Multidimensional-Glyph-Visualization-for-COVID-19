@@ -16,6 +16,7 @@ from core.task_3 import fig_task_3
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
 covid19_data_frame_all = pd.read_csv("data/owid-covid-data.csv")
+
 covid19_data_frame = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'Africa']  # Filter out data based on Europe continent.
 # Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' End.
@@ -41,8 +42,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # CSS stylesheet for dash end.
 
-# Task 1 from the concept paper start.
-# Coded by Varun Nandkumar Golani
 
 countries_in_africa = covid19_data_frame['location'].unique().tolist()
 
@@ -167,8 +166,13 @@ fig5.update_geos(fitbounds="locations", lataxis_showgrid=True, lonaxis_showgrid=
 fig5.update_layout(height=700, title='Choropleth map (africa)')
 # Task 4 from the concept paper End.
 
+all_countries = covid19_data_frame_all['location'].unique().tolist()
+all_countries = list(set(all_countries) - {'World', 'Asia', 'Europe', 'Africa', 'North America', 'South America', 'Oceania'})
+all_countries.sort()
+
+
 # Dash code start.
-app.layout = html.Div([
+app.layout = html.Div([ 
     html.H1(
         children='Geospatial Multidimensional Glyph Visualization for COVID-19',
         style={
@@ -184,6 +188,9 @@ app.layout = html.Div([
         dcc.Tab(label='Australia', value='tab-7')
     ]),
     html.Div(id="tabs-content"),
+
+    dcc.Dropdown(all_countries, ['India'], multi = True, id='multi-dropdown',),
+    html.Div(id='dd-output-container'),
 
     dcc.Tabs(id="buttons", value="button-1", children=[
         dcc.Tab(label='Line chart', value='button-1'),
@@ -213,22 +220,25 @@ def render_content(tab):
     
 
 @app.callback(Output('tabs-content2', 'children'),
-              [Input('buttons', 'value')])
-def render_content(tab):
+              Input('buttons', 'value'),
+              Input('multi-dropdown', 'value')
+              
+              
+)
+def render_content_button(tab, value):
+    if not len(value) > 0:
+        return f'Select country'
+
     if tab == 'button-1':
-        fig1 = fig_task_1(["India", "Ukraine"], "", COVID_df=covid19_data_frame_all)
-        # fig1 = fig_task_1("", continent = ["Asia"], COVID_df=covid19_data_frame_all)
+        fig1 = fig_task_1(value, "", COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='line-graph', figure=fig1)])
-    #     return html.Div([dcc.Graph(id='choropleth-map', figure=fig_dash_world)])
     elif tab == 'button-2':
-        fig2 = fig_task_2(["India", "Ukraine"], "", COVID_df=covid19_data_frame_all)
+        fig2 = fig_task_2(value, "", COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
     elif tab == 'tab-3':
         return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
     else:
         return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
-
-
 
 
 if __name__ == '__main__':

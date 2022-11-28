@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-def fid_task_3(country, continent, COVID_df):
+def fig_task_3(country, continent, COVID_df):
     if country:
         data = COVID_df[COVID_df['location'].isin(country)]
         land_data = country
