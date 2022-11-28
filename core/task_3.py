@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-def fid_task_3(country, continent, COVID_df):
+def fig_task_3(country, continent, COVID_df):
     if country:
         data = COVID_df[COVID_df['location'].isin(country)]
         land_data = country
@@ -21,12 +21,12 @@ def fid_task_3(country, continent, COVID_df):
     if not country_recent_data.empty:
         recent_tests_data_frame = pd.concat([recent_tests_data_frame, country_recent_data.iloc[[-1]]])
 
-    fig3 = px.pie(recent_tests_data_frame, values='total_tests', names='location', title='Pie Chart'
+    fig_task_3 = px.pie(recent_tests_data_frame, values='total_tests', names='location', title='Pie Chart'
               , color='location', color_discrete_map=color_dict, hover_data=['date']
               , labels={'location': 'European country', 'date': 'Recent data available date',
                         'total_tests': 'Total tests'}, height=700)
 
-    fig3.update_traces(textposition='inside', textinfo='percent+label'
+    fig_task_3.update_traces(textposition='inside', textinfo='percent+label'
                    , hovertemplate='Total tests: %{value} <br>Recent data available date,' +
                                    'European country: %{customdata}</br>')
 
