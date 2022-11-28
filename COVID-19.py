@@ -236,7 +236,8 @@ def render_content_button(tab, value):
     elif tab == 'button-2':
         fig2 = fig_task_2(value, "", COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
-    elif tab == 'tab-3':
+    elif tab == 'button-3':
+        fig3 = fig_task_3("", ["Asia"], COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
     else:
         return html.Div([dcc.Graph(id='choropleth-map', figure=fig4)])
