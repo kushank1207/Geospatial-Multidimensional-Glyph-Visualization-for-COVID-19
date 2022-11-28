@@ -166,7 +166,8 @@ fig5.update_geos(fitbounds="locations", lataxis_showgrid=True, lonaxis_showgrid=
 fig5.update_layout(height=700, title='Choropleth map (africa)')
 # Task 4 from the concept paper End.
 
-all_countries = covid19_data_frame_all['location'].unique().tolist()
+data = covid19_data_frame_all.dropna(axis = 0, subset = ["location", "stringency_index"])
+all_countries = data['location'].unique().tolist()
 all_countries = list(set(all_countries) - {'World', 'Asia', 'Europe', 'Africa', 'North America', 'South America', 'Oceania'})
 all_countries.sort()
 
