@@ -13,13 +13,9 @@ from core.task_3 import fig_task_3
 
 
 
-# Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' start.
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
 covid19_data_frame_all = pd.read_csv("data/owid-covid-data.csv")
 
-# covid19_data_frame = covid19_data_frame_all.loc[
-#     covid19_data_frame_all['continent'] == 'Africa']  # Filter out data based on Europe continent.
-# Reading the csv data file via Github URL and filtering the data based on the continent 'Europe' End.
 
 covid19_data_frame_na = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'North America']
@@ -37,14 +33,11 @@ covid19_data_frame_a = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'Asia']
 
 
-# CSS stylesheet for dash start.
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-# CSS stylesheet for dash end.
 
 countries_in_africa = covid19_data_frame_na['location'].unique().tolist()
 
-# Creating color dictionary by combining different discrete plotly maps
 color_list = px.colors.qualitative.Alphabet + px.colors.qualitative.Dark24 + px.colors.qualitative.Dark2
 color_dict = {countries_in_africa[index]: color_list[index]
               for index in range(len(countries_in_africa))}
@@ -97,8 +90,6 @@ fig_dash_a = px.choropleth(covid19_data_frame_a,
                     scope ="asia", 
                     animation_frame ="date")
 
-# Task 4 from the concept paper Start.
-# coded by Sanjay Gupta
 
 iso_code_list = covid19_data_frame_na["iso_code"].unique().tolist()
 iso_code_color_dict = {iso_code_list[index]: color_list[index] for index in range(len(iso_code_list))}
@@ -140,7 +131,6 @@ fig5 = px.choropleth(recent_death_rate_data_frame, color='iso_code', locations='
                      scope="europe", color_discrete_map=iso_code_color_dict)
 fig5.update_geos(fitbounds="locations", lataxis_showgrid=True, lonaxis_showgrid=True)
 fig5.update_layout(height=700, title='Choropleth map')
-# Task 4 from the concept paper End.
 
 data = covid19_data_frame_all.dropna(axis = 0, subset = ["location", "stringency_index"])
 all_countries = data['location'].unique().tolist()
@@ -148,7 +138,6 @@ all_countries = list(set(all_countries) - {'World', 'Asia', 'Europe', 'Africa', 
 all_countries.sort()
 
 
-# Dash code start.
 app.layout = html.Div([ 
     html.H1(
         children='Geospatial Multidimensional Glyph Visualization for COVID-19',
