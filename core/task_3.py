@@ -16,7 +16,7 @@ def fid_task_3(country, continent, COVID_df):
 
     for country in data:
         country_recent_data = COVID_df.loc[(COVID_df['location'] == country)
-                                                 & pd.notnull(covid19_data_frame['total_tests']),
+                                                 & pd.notnull(COVID_df['total_tests']),
                                                  ['location', 'total_tests', 'date']]
     if not country_recent_data.empty:
         recent_tests_data_frame = pd.concat([recent_tests_data_frame, country_recent_data.iloc[[-1]]])
@@ -30,4 +30,4 @@ def fid_task_3(country, continent, COVID_df):
                    , hovertemplate='Total tests: %{value} <br>Recent data available date,' +
                                    'European country: %{customdata}</br>')
 
-    return fig3
+    return fig_task_3

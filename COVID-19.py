@@ -9,6 +9,7 @@ from dash.dependencies import Input, Output
 
 from core.task_1 import fig_task_1
 from core.task_2 import fig_task_2
+from core.task_3 import fig_task_3
 
 
 
