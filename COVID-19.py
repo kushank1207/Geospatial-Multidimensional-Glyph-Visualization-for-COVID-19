@@ -212,7 +212,7 @@ def render_content_button(tab, value):
         fig2 = fig_task_2(value, "", COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='parallel-coordinates', figure=fig2)])
     elif tab == 'button-3':
-        fig3 = fig_task_3("", ["Asia"], COVID_df=covid19_data_frame_all)
+        fig3 = fig_task_3(value, "", COVID_df=covid19_data_frame_all)
         return html.Div([dcc.Graph(id='pie-chart', figure=fig3)])
 
 if __name__ == '__main__':
