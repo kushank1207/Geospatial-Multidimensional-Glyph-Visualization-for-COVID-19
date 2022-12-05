@@ -171,7 +171,7 @@ app.layout = html.Div([
 
 
 
-    dcc.Dropdown(all_countries, ['India'], multi = True, id='multi-dropdown',),
+    dcc.Dropdown(all_countries, ['India', 'France', 'United States'], multi = True, id='multi-dropdown',),
     html.Div(id='dd-output-container'),
 
     dcc.Tabs(id="buttons", value="button-1", children=[

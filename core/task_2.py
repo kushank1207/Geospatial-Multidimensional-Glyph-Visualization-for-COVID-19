@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 def fig_task_2(country, continent, COVID_df):
-    imp_cols = ['location', 'total_cases', 'total_deaths', 'date', 'population','hospital_beds_per_thousand', 'median_age', 'life_expectancy']
+    imp_cols = ['location', 'total_cases', 'total_deaths', 'date', 'population','hospital_beds_per_thousand', 'gdp_per_capita', 'life_expectancy']
 
     recent_deaths_data_frame = pd.DataFrame(columns=imp_cols)
     if country:
@@ -52,7 +52,7 @@ def fig_task_2(country, continent, COVID_df):
             dict(range=[0, max(recent_deaths_data_frame['hospital_beds_per_thousand'])], label="Hospitals beds per 1000", values=recent_deaths_data_frame['hospital_beds_per_thousand']),
             dict(range=[0, max(recent_deaths_data_frame['median_age'])],   label='Median Age', values=recent_deaths_data_frame['median_age']),
             dict(range=[0, max(recent_deaths_data_frame['population'])],  label='Population', values=recent_deaths_data_frame['population']),
-            dict(range=[0, max(recent_deaths_data_frame['life_expectancy'])], label='Life expectancy', values=COVID_df['life_expectancy']),
+            dict(range=[0, max(recent_deaths_data_frame['gdp_per_capita'])], label='GDP Per Capita', values=recent_deaths_data_frame['gdp_per_capita']),
             dict(range=[0, max(recent_deaths_data_frame['covid19_death_rate'])], label='COVID-19 Death rate', values=recent_deaths_data_frame['covid19_death_rate']),
         ])
     ), layout=go.Layout( autosize=True, height=800, hovermode='closest', margin=dict(l=170, r=85, t=75)))
