@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 def fig_task_2(country, continent, COVID_df):
-    imp_cols = ['location', 'total_cases', 'total_deaths', 'date', 'population','hospital_beds_per_thousand', 'gdp_per_capita', 'life_expectancy']
+    imp_cols = ['location', 'total_cases', 'total_deaths', 'date', 'population','hospital_beds_per_thousand', 'median_age', 'gdp_per_capita']
 
     recent_deaths_data_frame = pd.DataFrame(columns=imp_cols)
     if country:

@@ -15,8 +15,9 @@ from core.task_3 import fig_task_3
 
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
 covid19_data_frame_all = pd.read_csv("data/owid-covid-data.csv")
-
-
+# covid19_data_frame_all = pd.read_csv(data_set_url)
+# covid19_data_frame_all.to_csv("data/owid-covid-data.csv",index=False)
+# exit()
 covid19_data_frame_na = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'North America']
 
