@@ -16,7 +16,7 @@ def fig_task_3(country, continent, COVID_df):
     color_dict = {land_data[index]: color_list[index]   for index in range(len(land_data))}
 
     for country in land_data:
-        print(country)
+        # print(country)
         country_recent_data = COVID_df.loc[(COVID_df['location'] == country)
                                                  & pd.notnull(COVID_df['total_tests']),
                                                  ['location', 'total_tests', 'date']]
