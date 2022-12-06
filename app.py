@@ -14,10 +14,9 @@ from core.task_3 import fig_task_3
 
 
 data_set_url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
-covid19_data_frame_all = pd.read_csv("data/owid-covid-data.csv")
-# covid19_data_frame_all = pd.read_csv(data_set_url)
-# covid19_data_frame_all.to_csv("data/owid-covid-data.csv",index=False)
-# exit()
+covid19_data_frame_all = pd.read_csv(data_set_url)
+
+
 covid19_data_frame_na = covid19_data_frame_all.loc[
     covid19_data_frame_all['continent'] == 'North America']
 
@@ -36,6 +35,7 @@ covid19_data_frame_a = covid19_data_frame_all.loc[
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 
 countries_in_africa = covid19_data_frame_na['location'].unique().tolist()
 
@@ -172,7 +172,7 @@ app.layout = html.Div([
 
 
 
-    dcc.Dropdown(all_countries, ['India', 'France', 'United States'], multi = True, id='multi-dropdown',),
+    dcc.Dropdown(all_countries, ['India'], multi = True, id='multi-dropdown',),
     html.Div(id='dd-output-container'),
 
     dcc.Tabs(id="buttons", value="button-1", children=[
